@@ -1,0 +1,42 @@
+﻿@model File
+
+@{
+    ViewData["Title"] = "Add a new file";
+}
+
+<section class="add-topic">
+    <div class="container">
+        <h3 class="homework-title">
+            Add a new file
+        </h3>
+
+        <form method="post" asp-action="Add" class="add-topic-form" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group d-none">
+                <label asp-for="CourseId"></label>
+                <input asp-for="CourseId" value="@ViewBag.CourseId">
+                <span asp-validation-for="CourseId" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" type="text">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input">
+                <label>File </label>
+                <input name="file" type="file">
+                <span class="text-danger"></span>
+            </div>
+            <div class="add-topic__input-btn">
+                <button type="submit" class="button">
+                    Add
+                </button>
+                <a asp-controller="Courses" asp-action="Index" asp-route-id="@ViewBag.CourseId" class="button text-center">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</section>

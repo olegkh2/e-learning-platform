@@ -1,0 +1,32 @@
+﻿@model Topic
+
+@{
+    ViewData["Title"] = "Edit topic";
+}
+
+<section class="add-topic">
+    <div class="container">
+        <h3 class="homework-title">
+            Edit topic
+        </h3>
+
+        <form method="post" asp-action="Edit" class="add-topic-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="add-topic__input form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" type="text">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input-btn">
+                <button type="submit" class="button">
+                    Save
+                </button>
+                <a asp-controller="Courses" asp-action="Index" asp-route-id="@Model.CourseId" class="button text-center">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</section>

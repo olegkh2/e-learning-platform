@@ -1,0 +1,10 @@
+﻿@model List<(int, string)>
+
+@foreach (var item in Model)
+{
+    <li class="navigation-item__list-item">
+        <a asp-action="Index" asp-controller="Courses" asp-route-id="@item.Item1">
+            @item.Item2
+        </a>
+    </li>
+}

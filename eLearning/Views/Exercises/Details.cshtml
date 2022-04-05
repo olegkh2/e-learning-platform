@@ -1,0 +1,171 @@
+﻿@model Exercise
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+<section class="homework">
+    <div class="container">
+        <h3 class="homework-title">
+            Exercise - @Model.Name
+        </h3>
+
+        <div class="homework-description-wrap">
+            <p class="homework-description" style="white-space: pre-line">
+                @Model.Text
+            </p>
+        </div>
+
+        @if (User.IsInRole("User"))
+        {
+            <div class="homework-parameters">
+                <div class="homework-flex">
+                    <p class="homework-status">
+                        Status:
+                    </p>
+                    @if (Model.ExerciseResults.Count > 0)
+                    {
+                        if (Model.ExerciseResults[0].Grade != 0 || Model.ExerciseResults[0].Comment != null)
+                        {
+                            <p>Graded</p>
+                        }
+                        else
+                        {
+                            <p>Done</p>
+                        }
+                    }
+                    else
+                    {
+                        <p>Empty</p>
+                    }
+                </div>
+                <div class="homework-flex">
+                    <p>
+                        Grade:
+                    </p>
+                    <p class="homework-grade">
+                        @if (Model.ExerciseResults.Count > 0 && Model.ExerciseResults[0].Grade != 0)
+                        {<text>@Model.ExerciseResults[0].Grade</text>}
+                    </p>
+                </div>
+                <div class="homework-flex">
+                    <p>
+                        Comment:
+                    </p>
+                    <p class="homework-comment">
+                        @if (Model.ExerciseResults.Count > 0)
+                        {<text>@Model.ExerciseResults[0].Comment</text>}
+                    </p>
+                </div>
+                <div class="homework-flex">
+                    <p>
+                        Date:
+                    </p>
+                    <p class="homework-date">
+                        @if (Model.ExerciseResults.Count > 0)
+                        {<text>@Model.ExerciseResults[0].Date.ToShortDateString()</text>}
+                    </p>
+                </div>
+                <div class="homework-flex">
+                    <p>
+                        Answer:
+                    </p>
+                    <p class="homework-answer">
+                        @if (Model.ExerciseResults.Count > 0)
+                        {<text>@Model.ExerciseResults[0].Answer</text>}
+                    </p>
+                </div>
+                <div class="homework-flex">
+                    <p>
+                        File:
+                    </p>
+                    <p class="homework-file">
+                        @if (Model.ExerciseResults.Count > 0 && Model.ExerciseResults[0].FileName != null)
+                        {
+                            <a asp-controller="Exercises" asp-action="GetFileById" asp-route-id="@Model.Id">
+                                File
+                            </a>
+                        }
+                    </p>
+                </div>
+            </div>
+
+            @if (Model.ExerciseResults.Count == 0)
+            {
+                <form asp-action="AddAnswer" asp-controller="Exercises" method="post" class="homework-add__form" enctype="multipart/form-data">
+                    <input name="exerciseId" value="@Model.Id" class="d-none" />
+                    <div class="homework-add__form-input">
+                        <label>
+                            Ваш коментар:
+                        </label>
+                        <textarea name="text" cols="60" rows="10" class="homework-add__form-input-item">
+                        </textarea>
+                    </div>
+                    <div class="homework-add__form-input">
+                        <label>
+                            Наданий файл:
+                        </label>
+                        <input name="file" type="file" class="homework-add__form-input-item homework-add__form-input-item-file" />
+
+                    </div>
+                    <button class="button">
+                        Додати
+                    </button>
+                </form>
+            }
+
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            <section class="news">
+                <div class="container">
+                    <div class="test-table-wrap">
+                        <form asp-action="Edit" method="post">
+
+                            <table class="results-table">
+                                <tr>
+                                    <td class="description__table-name">Student</td>
+                                    <td class="description__table-name">Answer</td>
+                                    <td class="description__table-name">File</td>
+                                    <td class="description__table-name">Date</td>
+                                    <td class="description__table-name">Comment</td>
+                                    <td class="description__table-name">Grade</td>
+                                </tr>
+
+                                @for (int i = 0; i < Model.ExerciseResults.Count; i++)
+                                {
+                            <tr>
+                                <td class="description__table-value">@Model.ExerciseResults[i].User.FullName</td>
+                                <td class="description__table-value">@Model.ExerciseResults[i].Answer</td>
+                                <td class="description__table-value">
+                                    <a asp-controller="Exercises" asp-action="GetFileByName" asp-route-filename="@Model.ExerciseResults[i].FileName">
+                                        Download
+                                    </a>
+                                </td>
+                                <td class="description__table-value">@Model.ExerciseResults[i].Date</td>
+                                <td class="description__table-value">
+                                    <input type="text" value="@Model.ExerciseResults[i].Comment" name="ExerciseResult[@i].Comment" />
+                                </td>
+                                <td class="description__table-value">
+                                    <input type="number" value="@Model.ExerciseResults[i].Grade" name="ExerciseResult[@i].Grade" />
+                                    <input name="ExerciseResult[@i].UserId" value="@Model.ExerciseResults[i].UserId" class="d-none" />
+                                    <input name="ExerciseResult[@i].ExerciseId" value="@Model.ExerciseResults[i].ExerciseId" class="d-none" />
+                                </td>
+                            </tr>
+                                }
+
+                            </table>
+
+                            @if (Model.ExerciseResults.Count > 0)
+                            {
+                            <div class="add-topic__input-btn">
+                                <button class="button" type="submit">Save changes</button>
+                            </div>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </section>
+        }
+
+    </div>
+</section>

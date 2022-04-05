@@ -1,0 +1,19 @@
+﻿@model Note
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<section class="homework">
+    <div class="container">
+        <h3 class="homework-title">
+            @Model.Name
+        </h3>
+
+        <div class="homework-description-wrap">
+            <p class="note-text" style="white-space: pre-line">
+                @Model.Text
+            </p>
+        </div>
+    </div>
+</section>

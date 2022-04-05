@@ -1,0 +1,45 @@
+﻿@using eLearning.Data.ViewModels;
+
+@model AddCourseVM
+
+@{
+    ViewData["Title"] = "Add a new course";
+}
+
+
+<section class="add-topic">
+    <div class="container">
+        <h3 class="homework-title">
+            Add a new course
+        </h3>
+
+        <form method="post" asp-controller="Courses" asp-action="Add" class="add-topic-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="add-topic__input">
+                <label asp-for="Name"></label>
+                <input asp-for="Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input">
+                <label asp-for="Description"></label>
+                <input asp-for="Description">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input">
+                <label asp-for="UserIds"></label>
+                <select asp-for="UserIds" asp-items="ViewBag.Users" multiple></select>
+                <span asp-for="UserIds" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input-btn">
+                <button type="submit" class="button">
+                    Add
+                </button>
+                <a asp-controller="Course" asp-action="All" asp-route-id="" class="button text-center">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</section>

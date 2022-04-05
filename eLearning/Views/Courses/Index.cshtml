@@ -1,0 +1,259 @@
+﻿@model Course
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<section class="course course-edition">
+    <div class="container">
+        <h3 class="course-title">
+            @Model.Name
+        </h3>
+        <div class="course-author-info">
+            <div class="course-description">
+
+                <div class="course-subtitle__wrap">
+                    <p class="course-subtitle">
+                        @Model.Description
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="course-materials">
+
+            @for (int i = 1, t = 0, f = 0, n = 0, e = 0; ; i++)
+            {
+                if (Model.Topics.Count > t && Model.Topics[t].Position == i)
+                {
+                    <div class="course-materials-title">
+                        <div class="course-materials-title__wrap">
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                            <div class="course-materials__move">
+                                <form asp-action="ItemUp" method="post">
+                                    <input class="d-none" name="id" value="@Model.Id" />
+                                    <input class="d-none" name="position" value="@Model.Topics[t].Position" />
+                                    <button type="submit" class="course-materials__to-top">
+                                    </button>
+                                </form>
+                                <form asp-action="ItemDown" method="post">
+                                    <input class="d-none" name="id" value="@Model.Id" />
+                                    <input class="d-none" name="position" value="@Model.Topics[t].Position" />
+                                    <button type="submit" class="course-materials__to-bottom">
+                                    </button>
+                                </form>
+                            </div>
+                            }
+                            <p class="course-materials-title-name">
+                                @Model.Topics[t].Name
+                            </p>
+                        </div>
+
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                        <div class="course-materials-title__buttons">
+                            <form title="Hile" asp-controller="Topics" asp-action="Hide" asp-route-id="@Model.Topics[t].Id">
+                                @if (Model.Topics[t].Visible == false)
+                                {
+                                    <button type="submit"><img class="btn-course" src="~/img/visibility.svg" /></button>
+                                }
+                                else
+                                {
+                                    <button type="submit"><img class="btn-course" src="~/img/hide.svg" /></button>
+                                }
+                            </form>
+                            <a asp-controller="Topics" asp-action="Edit" asp-route-id="@Model.Topics[t].Id" title="Edit">
+                                <img class="btn-course" src="~/img/edit (1).svg" />
+                            </a>
+                            <form asp-controller="Topics" asp-action="Delete" method="post" title="Delete">
+                                <input class="d-none" value="@Model.Topics[t].Id" name="id" />
+                                <button type="submit"><img class="btn-course" src="~/img/delete.svg" /></button>
+                            </form>
+                        </div>
+                        }
+                    </div>
+                    t++;
+                }
+
+                else if (Model.Files.Count > f && Model.Files[f].Position == i)
+                {
+                    <div class="course-materials-download">
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                        <div class="course-materials__move">
+                            <form asp-action="ItemUp" method="post">
+                                <input class="d-none" name="id" value="@Model.Id" />
+                                <input class="d-none" name="position" value="@Model.Files[f].Position" />
+                                <button type="submit" class="course-materials__to-top">
+                                </button>
+                            </form>
+                            <form asp-action="ItemDown" method="post">
+                                <input class="d-none" name="id" value="@Model.Id" />
+                                <input class="d-none" name="position" value="@Model.Files[f].Position" />
+                                <button type="submit" class="course-materials__to-bottom">
+                                </button>
+                            </form>
+                        </div>
+                        }
+                        <a asp-controller="Files" asp-action="Details" asp-route-id="@Model.Files[f].Id">
+                            <img style="max-width:30px; max-height:30px;" src="~/img/file.svg" alt="" />
+                            @Model.Files[f].Name
+                        </a>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                        <div class="course-materials-title__buttons">
+                            <form title="Hile" asp-controller="Files" asp-action="Hide" asp-route-id="@Model.Files[f].Id">
+                                @if (Model.Files[f].Visible == false)
+                                {
+                                    <button type="submit"><img class="btn-course" src="~/img/visibility.svg" /></button>
+                                }
+                                else
+                                {
+                                    <button type="submit"><img class="btn-course" src="~/img/hide.svg" /></button>
+                                }
+                            </form>
+                            <a asp-controller="Files" asp-action="Edit" asp-route-id="@Model.Files[f].Id" title="Edit">
+                                <img class="btn-course" src="~/img/edit (1).svg" />
+                            </a>
+                            <form asp-controller="Files" asp-action="Delete" title="Delete">
+                                <input class="d-none" value="@Model.Files[f].Id" name="id" />
+                                <button type="submit"><img class="btn-course" src="~/img/delete.svg" /></button>
+                            </form>
+                        </div>
+                        }
+                    </div>
+                    f++;
+                }
+
+                else if (Model.Notes.Count > n && Model.Notes[n].Position == i)
+                {
+                    <div class="course-materials-download">
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                        <div class="course-materials__move">
+                            <form asp-action="ItemUp" method="post">
+                                <input class="d-none" name="id" value="@Model.Id" />
+                                <input class="d-none" name="position" value="@Model.Notes[n].Position" />
+                                <button type="submit" class="course-materials__to-top">
+                                </button>
+                            </form>
+                            <form asp-action="ItemDown" method="post">
+                                <input class="d-none" name="id" value="@Model.Id" />
+                                <input class="d-none" name="position" value="@Model.Notes[n].Position" />
+                                <button type="submit" class="course-materials__to-bottom">
+                                </button>
+                            </form>
+                        </div>
+                        }
+                        <a asp-controller="Notes" asp-action="Details" asp-route-id="@Model.Notes[n].Id">
+                            <img src="~/img/note.svg" alt="" />
+                            @Model.Notes[n].Name
+                        </a>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                        <div class="course-materials-title__buttons">
+                            <form title="Hile" asp-controller="Notes" asp-action="Hide" asp-route-id="@Model.Notes[n].Id">
+                                @if (Model.Notes[n].Visible == false)
+                                {
+                                    <button type="submit"><img class="btn-course" src="~/img/visibility.svg" /></button>
+                                }
+                                else
+                                {
+                                    <button type="submit"><img class="btn-course" src="~/img/hide.svg" /></button>
+                                }
+                            </form>
+                            <a asp-controller="Notes" asp-action="Edit" asp-route-id="@Model.Notes[n].Id" title="Edit">
+                                <img class="btn-course" src="~/img/edit (1).svg" />
+                            </a>
+                            <form asp-controller="Notes" asp-action="Delete" title="Delete">
+                                <input class="d-none" value="@Model.Notes[n].Id" name="id" />
+                                <button type="submit"><img class="btn-course" src="~/img/delete.svg" /></button>
+                            </form>
+                        </div>
+                        }
+                    </div>
+                    n++;
+                }
+                
+                else if (Model.Exercises.Count > e && Model.Exercises[e].Position == i)
+                {
+                    <div class="course-materials-download">
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin")) { 
+                        <div class="course-materials__move">
+                            <form asp-action="ItemUp" method="post">
+                                <input class="d-none" name="id" value="@Model.Id" />
+                                <input class="d-none" name="position" value="@Model.Exercises[e].Position" />
+                                <button type="submit" class="course-materials__to-top">
+                                </button>
+                            </form>
+                            <form asp-action="ItemDown" method="post">
+                                <input class="d-none" name="id" value="@Model.Id" />
+                                <input class="d-none" name="position" value="@Model.Exercises[e].Position" />
+                                <button type="submit" class="course-materials__to-bottom">
+                                </button>
+                            </form>
+                        </div>
+                        }
+                        <a asp-controller="Exercises" asp-action="Details" asp-route-id="@Model.Exercises[e].Id">
+                            <img src="~/img/homework.svg" alt="" />
+                            @Model.Exercises[e].Name
+                        </a>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                        <div class="course-materials-title__buttons">
+                            <form title="Hile" asp-controller="Exercises" asp-action="Hide" asp-route-id="@Model.Exercises[e].Id">
+                                @if (Model.Exercises[e].Visible == false)
+                                {
+                                    <button type="submit"><img class="btn-course" src="~/img/visibility.svg" /></button>
+                                }
+                                else
+                                {
+                                    <button type="submit"><img class="btn-course" src="~/img/hide.svg" /></button>
+                                }
+                            </form>
+                            <form asp-controller="Exercises" asp-action="Delete" title="Delete">
+                                <input class="d-none" value="@Model.Exercises[e].Id" name="id" />
+                                <button type="submit"><img class="btn-course" src="~/img/delete.svg" /></button>
+                            </form>
+                        </div>
+                        }
+                    </div>
+                    n++;
+                }
+                else break;
+            }
+
+
+        </div>
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+
+        <div class="course__buttons">
+            <div class="course-add-material">
+                <button class="course-add-material-button">
+                    +
+                </button>
+                <div class="course-add-material-menu d-none">
+                    <a asp-controller="Topics" asp-action="Add" asp-route-id="@Model.Id">Topic</a>
+                    <a asp-controller="Notes" asp-action="Add" asp-route-id="@Model.Id">Note</a>
+                    <a asp-controller="Files" asp-action="Add" asp-route-id="@Model.Id">File</a>
+                    <a asp-controller="Exercises" asp-action="Add" asp-route-id="@Model.Id">Exercise</a>
+                </div>
+            </div>
+        </div>
+
+        }
+    </div>
+</section>
+
+
+@section Scripts{
+<script>
+    document.querySelector('.course-add-material-button').addEventListener('click', function (event) {
+        document.querySelector('.course-add-material-menu').classList.toggle('d-none')
+    })
+</script>
+}

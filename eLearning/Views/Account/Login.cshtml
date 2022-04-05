@@ -1,0 +1,58 @@
+﻿@using eLearning.Data.ViewModels;
+
+@model LoginVM
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="icon" href="~/img/favicon.svg" />
+    <title>eLearning</title>
+</head>
+
+<body class="form-active">
+
+    <div class="from-login-wrap">
+        <form class="form-login" asp-action="Login" method="POST">
+
+            <p>
+                E-Learning
+            </p>
+
+            <p>
+                Authorization
+            </p>
+
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email">
+            </div>
+            <span asp-validation-for="Email"></span>
+
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password">
+            </div>
+            <span asp-validation-for="Password"></span>
+
+            <span>@ViewData["Error"]</span>
+
+            <button type="submit">LogIn</button>
+        </form>
+        <p class="form-login-botom">
+            Please enter your login and password.
+        </p>
+    </div>
+
+</body>
+
+</html>

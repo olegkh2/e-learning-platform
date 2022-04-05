@@ -1,0 +1,67 @@
+﻿@using eLearning.Data.ViewModels;
+
+@model AddAccountVM
+
+@{
+    ViewData["Title"] = "Add a new account";
+}
+
+
+<section class="add-topic">
+    <div class="container">
+        <h3 class="homework-title">
+            Add a new account
+        </h3>
+
+        <h6 class="homework-title">
+            @if (ViewBag.Errors != null)
+            {
+            <labe>Errors:</labe>
+                foreach (var item in ViewBag.Errors)
+                {
+                    <p class="text-danger">@item</p>
+                }
+            }
+        </h6>
+
+
+        <form method="post" asp-controller="Account" asp-action="Add" class="add-topic-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="add-topic__input">
+                <label asp-for="FullName"></label>
+                <input asp-for="FullName">
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input">
+                <label asp-for="Email"></label>
+                <input asp-for="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input">
+                <label asp-for="Password"></label>
+                <input asp-for="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input">
+                <label asp-for="CourseIds"></label>
+                <select asp-for="CourseIds" asp-items="ViewBag.Courses" multiple></select>
+                <span asp-for="CourseIds" class="text-danger"></span>
+            </div>
+            <div class="add-topic__input-btn">
+                <button type="submit" class="button">
+                    Add
+                </button>
+                <a asp-controller="Account" asp-action="Users" asp-route-id="" class="button text-center">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</section>
